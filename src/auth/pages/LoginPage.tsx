@@ -8,6 +8,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router";
 import { useApi } from "../../utils/useApi";
 import toast, { Toaster } from "react-hot-toast";
+import { ROLES, type RoleKey } from "../../shared/auth/roles";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { EMAILREGEX, PASSWORDREGEX } from "../../shared/regex";
 import type { LoginData, LoginResponse } from "../../shared/interfaces";
@@ -33,6 +34,11 @@ export const LoginPage = () => {
         icon: responseLogin.icon === "success" ? "✅" : "❌"
       });
       if (responseLogin.error) return;
+
+      const rol = responseLogin.data.rol as RoleKey;
+      localStorage.setItem('token', responseLogin.data.token);
+
+      navigate(ROLES[rol].defaultRoute);
     } catch (error) {
       console.log(error)
       toast.error('Ocurrió un error al realizar la petición', {

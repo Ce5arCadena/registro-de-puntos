@@ -1,8 +1,11 @@
 import './App.css';
+import Home from './admin/pages/Home';
 import AuthLayout from './auth/layouts/AuthLayout';
 import { LoginPage } from './auth/pages/LoginPage';
 import RegisterPage from './auth/pages/RegisterPage';
+import AdminLayout from './admin/layouts/AdminLayout';
 import { BrowserRouter, Route, Routes } from 'react-router';
+import ProtectedRoute from './auth/components/ProtectedRoute';
 
 function App() {
   return (
@@ -14,6 +17,13 @@ function App() {
           <Route index element={<LoginPage/>}/>
           <Route path='login' element={<LoginPage/>}/>
           <Route path='register' element={<RegisterPage/>}/>
+        </Route>
+
+        <Route path='admin/*' element={<ProtectedRoute>
+          <AdminLayout/>
+        </ProtectedRoute>}>
+          <Route index element={<Home/>}/>
+          <Route path='home' element={<Home/>}/>
         </Route>
       </Routes>
     </BrowserRouter>

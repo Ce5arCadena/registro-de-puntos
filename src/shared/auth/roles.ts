@@ -1,13 +1,16 @@
 export const ROLES = {
-    ADMIN: {
-        defaultRoute: '/admin/dashboard',
+    SUPERADMIN: {
+        defaultRoute: '/admin/home',
         routes: [
-            '/admin/dashboard',
+            '/admin/home',
             '/admin/create/school',
             '/admin/edit/school'
         ]
     } 
 };
+
+export type RoleKey = keyof typeof ROLES;
+
 
 // SCHOOL = 'SCHOOL',
 //     STUDENT = 'STUDENT',

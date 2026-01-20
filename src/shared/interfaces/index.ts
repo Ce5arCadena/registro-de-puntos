@@ -10,5 +10,16 @@ export interface LoginResponse {
     error?: [] | '';
     data: {
         token: string;
+        rol: string;
     }
+}
+
+export interface JwtPayload {
+    email:  string;
+    name:   string;
+    school: null;
+    sub:    number;
+    rol:    string;
+    iat:    number;
+    exp:    number;
 }
