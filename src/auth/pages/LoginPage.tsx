@@ -4,10 +4,13 @@ import SvgLogin from '../../shared/imgs/svg-login.svg';
 import WaveLogin from '../../shared/imgs/wave-login.svg';
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 
-import type { LoginData } from "../../shared/interfaces";
+import { useState } from "react";
+import { useNavigate } from "react-router";
+import { useApi } from "../../utils/useApi";
+import toast, { Toaster } from "react-hot-toast";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { EMAILREGEX, PASSWORDREGEX } from "../../shared/regex";
-import { useState } from "react";
+import type { LoginData, LoginResponse } from "../../shared/interfaces";
 
 export const LoginPage = () => {
   const {
@@ -19,15 +22,29 @@ export const LoginPage = () => {
     mode: 'onChange'
   });
   const passwordValue = watch('password');
-
   const [showPassword, setShowPassword] = useState(false); 
 
-  const onSubmit: SubmitHandler<LoginData> = (values) => {
-    console.log(values)
+  const navigate = useNavigate();
+
+  const onSubmit: SubmitHandler<LoginData> = async (values) => {
+    try {
+      const responseLogin = await useApi<LoginResponse>('/auth/login', 'POST', values);
+      toast(responseLogin.message, {
+        icon: responseLogin.icon === "success" ? "✅" : "❌"
+      });
+      if (responseLogin.error) return;
+    } catch (error) {
+      console.log(error)
+      toast.error('Ocurrió un error al realizar la petición', {
+        duration: 4000,
+        position: 'top-right'
+      });
+    };
   };
 
   return (
     <div className="bg-linear-to-b from-dark-bg to-dark-bg-elevated flex flex-col justify-between items-center rounded-2xl w-[25vw]">
+      <Toaster/>
       {/* Imagen */}
       <div className='h-20 w-20 rounded-full relative -top-5 transition-all duration-300 ease-in-out cursor-pointer hover:-translate-y-2'>
         <img src={SvgLogin} alt="Svg Login" className='h-full w-full' />
