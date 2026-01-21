@@ -9,14 +9,14 @@ const ProtectedRoute = ({ children} : {children: React.ReactNode}) => {
     const token = localStorage.getItem('token');
     
     if (!token) {
-        return <Navigate to='/auth/login' />
+        return <Navigate to='/auth/login' />;
     };
 
     const { rol } = jwtDecode<JwtPayload>(token);
     
     const canNavigate = ROLES[rol as RoleKey].routes.some(route => pathname.startsWith(route));
     if (!canNavigate) {
-        return <Navigate to={ROLES[rol as RoleKey].defaultRoute} />
+        return <Navigate to={ROLES[rol as RoleKey].defaultRoute} />;
     };
 
     return children;
