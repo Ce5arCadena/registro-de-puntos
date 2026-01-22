@@ -13,6 +13,9 @@ const ProtectedRoute = ({ children} : {children: React.ReactNode}) => {
     };
 
     const { rol } = jwtDecode<JwtPayload>(token);
+    if (!rol) {
+        return <Navigate to='/auth/login' />;
+    };
     
     const canNavigate = ROLES[rol as RoleKey].routes.some(route => pathname.startsWith(route));
     if (!canNavigate) {

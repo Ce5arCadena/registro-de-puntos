@@ -16,8 +16,6 @@ export const useApi = async <T>(pathUrl: string = '', method = 'GET', body = {})
 
         const response = await fetch(`${urlBase}${pathUrl}`, options);
         const data = await response.json();
-
-        console.log('⌛⌛⌛', data)
         return data;
     } catch (error) {
         console.log(error);

@@ -4,8 +4,8 @@ import AuthLayout from './auth/layouts/AuthLayout';
 import { LoginPage } from './auth/pages/LoginPage';
 import RegisterPage from './auth/pages/RegisterPage';
 import AdminLayout from './admin/layouts/AdminLayout';
-import { BrowserRouter, Route, Routes } from 'react-router';
 import ProtectedRoute from './auth/components/ProtectedRoute';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router';
 
 function App() {
   return (
@@ -25,6 +25,8 @@ function App() {
           <Route index element={<Home/>}/>
           <Route path='home' element={<Home/>}/>
         </Route>
+
+        <Route path='*' element={<Navigate to='/auth/login' />}/>
       </Routes>
     </BrowserRouter>
   )
